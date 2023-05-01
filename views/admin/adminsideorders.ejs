@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/adminnav.css">
+    <title>Document</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 0 auto;
+        background: #c2e59c; 
+        background: rgb(177, 177, 177);
+
+      }
+      
+      th, td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 8px;
+      }
+      
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+      
+      td.border {
+        border: 1px solid #ddd;
+      }
+      
+      td.text-green-900 {
+        color: #1a202c;
+      }
+      
+      .inline-block {
+        display: inline-block;
+      }
+      
+      .relative {
+        position: relative;
+      }
+      
+      .w-64 {
+        width: 16rem;
+      }
+      
+      form {
+        display: inline-block;
+      }
+      
+      select {
+        display: block;
+        width: 100%;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      
+      option:hover {
+        background-color: #ddd;
+      }
+      
+      option[selected] {
+        background-color: #ddd;
+      }
+      
+      .absolute {
+        position: absolute;
+      }
+      
+      .inset-y-0 {
+        top: 0;
+        bottom: 0;
+      }
+      
+      .right-0 {
+        right: 0;
+      }
+      
+      .flex {
+        display: flex;
+      }
+      
+      .items-center {
+        align-items: center;
+      }
+      
+      .px-2 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+      
+      .text-gray-700 {
+        color: #4a5568;
+      }
+      
+      .pointer-events-none {
+        pointer-events: none;
+      }
+      
+      .moment {
+        font-size: 0.875rem;
+      }
+      
+          
+    </style>
+    </head>
+    <body>
+      <nav class="navbar">
+        <div id="trapezoid">
+          <a class="sub-home" >Home</a>
+          <a href="/admin" class="expandHome">Home</a>
+          <a href="/chatAdmin" class="expandHome">Chat</a>
+          <a href="/adminproduct" class="expandHome">My product</a>
+          <a href="/admin/ourUser" class="expandHome">my user</a>
+        </div>
+      </nav>
+    <h3 style="text-align: center; font-size: 40px;">All Order</h3>
+<table>
+      <tr>
+        <th>Orders</th>
+        <th>Customer</th>
+        <th>Address</th>
+        <th>Status</th>
+        <th>placed at</th>
+      </tr>
+    </thead>
+    <tbody id="orderTableBody">
+    
+    </tbody>
+  </table>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+  async function ourorder() {
+    const ordertable = document.querySelector('#orderTableBody');
+
+    try {
+      const response = await fetch('/admin/orderdata', {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const order = await response.json();
+      const markup = generatemarkup(order);
+
+      ordertable.innerHTML = markup;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+   // function renderitem(item){
+       
+     // var alldata=Object.keys(item)[0];
+    // var pget= Object.keys(item);
+      //  console.log('pget',pget);
+      //  console.log(alldata,item[alldata]); 
+       //   return [item[alldata].item].map((i) =>{
+       //     return `<p>${i.name} - ${item[alldata].qty} pcs</p>`
+       //   }).join();  
+    // } 
+  
+  function renderitem(item) {
+    let result = '';
+
+    for (const key in item) {
+      if (item.hasOwnProperty(key)) {
+        const { name } = item[key].item;
+        const qty = item[key].qty;
+        result += `<p>${name} - ${qty} pcs</p>`;
+      }
+    }
+
+    return result;
+  }
+
+  function generatemarkup(order) {
+    return order.map((order) => {
+      return `
+        <tr>
+          <td class="border px-4 py-2 text-green-900">
+            <a href="/orders/${order._id}" style="color: red;"><p>${order._id}</p></a>
+            <div>${renderitem(order.item)}</div>
+          </td>
+          <td class="border px-4 py-2">${order.customerId.userName}</td>
+          <td class="border px-4 py-2">${order.addressno1}</td>
+          <td class="border px-4 py-2">
+            <div class="inline-block relative w-64">
+              <form action="/admin/orderstatus" method="POST">
+                <input type="hidden" name="orderId" value="${order._id}">
+                <select name="status" onchange="this.form.submit()" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow shadow leading-tight focus:outline-none focus:shadow-outline ">
+                  <option value="order_placed" ${order.status==='order_placed' ? 'selected' : ''}>placed </option>
+                  <option value="confirmed" ${order.status==='confirmed' ? 'selected' : ''}>confirmed </option>
+                  <option value="prepared" ${order.status==='prepared' ? 'selected' : ''}>prepared </option>
+                  <option value="delivered" ${order.status==='delivered' ? 'selected' : ''}>delivered </option>
+                  <option value="completed" ${order.status==='completed' ? 'selected' : ''}>completed </option>
+                </select>
+              </form>
+            </div>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"></div>
+          </td>
+          <td class="border px-4 py-2">${moment(order.createdAt).format('hh:mm A')}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  ourorder();
+</script>
+<script>
+  $('.expandHome').mouseover(function() {
+    $('.sub-home').css({
+          'display': 'block'
+      }); 
+  });
+  $('.subnavbtn').mouseover(function() {
+    $('.sub-home').css({
+          'display': 'none'
+      }); 
+  });
+  
+  $('#trapezoid').mouseleave(function() {
+    $('#trapezoid').css({
+          'margin-top': '-53px'
+      }); 
+      $('.sub-home').css({
+          'display': 'none'
+      }); 
+  }).mouseenter(function() {
+    $('#trapezoid').css({
+          'margin-top': '0px'
+      }); 
+  });
+                
+  
+</script>
+
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>dashboard</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Free HTML Templates" name="keywords">
+        <meta content="Free HTML Templates" name="description">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/line-awesome/dist/line-awesome/css/line-awesome.min.css">
+    
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.icon8.com/fonts/line-awesome/1.3.0/css/line-awesome.min.css">
+
+        <link rel="stylesheet" href="/css/app.css">
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="img/formimg.jpg" type="image/x-icon">
+    
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+
+  
+       
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    
+        <!-- Libraries Stylesheet -->
+        <link href="css/carousel.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/ordertrack.css">
+    
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="/css/dashboard.css" rel="stylesheet">
+    </head>
+<body>
+    <div class="container-fluid">
+        <div class="row bg-secondary py-2 px-xl-5">
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="d-inline-flex align-items-center">
+                    <a class="text-dark" href="">FAQs</a>
+                    <span class="text-muted px-2">|</span>
+                    <a class="text-dark" href="">Help</a>
+                    <span class="text-muted px-2">|</span>
+                    <a class="text-dark" href="">Support</a>
+                    <span class="text-muted px-2">|</span>
+                  <button style="border:none !important; outline: none; background:none;" onclick="clk()"><a class="text-dark" >Logout</button> 
+                </div>
+            </div>
+            <div class="col-lg-6 text-center text-lg-right">
+                <div class="d-inline-flex align-items-center">
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a class="text-dark pl-2" href="">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center py-3 px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                </a>
+            </div>
+            <div class="col-lg-6 col-6 text-left">
+                <form action="">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for products">
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-transparent text-primary">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="Corder" class="col-lg-3 col-6 text-right">
+                <a href="/shop" class="btn">Shop</a>
+                <a href="/dashboard" class="btn">Home</a>
+              </div>
+        </div>
+    </div>
+    <section class="status">
+        <div class="container mx-auto">
+            <div class="status-box w-full lg:w-2/3 mx-auto">
+                <div class="flex items-center justify-between mb-12">
+                    <h1 class="text-xl font-bold">Track delivery status</h1>
+                    <h6 class="bg-white py-1 rounded-full px-4 text-green-600 text-xs"><%= order._id%></h6>
+                    <input id="hiddenInput" type="hidden" value="<%= JSON.stringify(order)%> ">
+                </div>
+                <ul>
+                    <li class="status_line text-sm md:text-xl pb-16 " data-status="order_placed"><span>Order Placed</span>
+                    </li>
+                    <li class="status_line text-sm md:text-xl pb-16 " data-status="confirmed"><span>Order confirmation</span>
+                    </li>
+                    <li class="status_line text-sm md:text-xl pb-16" data-status="prepared"><span>Preparation</span></li>
+                    <li class="status_line text-sm md:text-xl pb-16" data-status="delivered"><span>Out for delivery </span>
+                    </li>
+                    <li class="status_line text-sm md:text-xl" data-status="completed"><span>Complete</span></li>
+                </ul>
+            </div>
+        </div>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script type="text/javascript">       
+    let order=document.querySelector("#hiddenInput") ?document.querySelector("#hiddenInput").value : null   
+
+    order=JSON.parse(order);
+
+    let statues=document.querySelectorAll('.status_line ');
+
+
+    let time=document.createElement('small');
+
+
+    function updatestatus(order){
+        let setcompleted=true;
+        statues.forEach((e)=>
+        {
+            let productstatus=e.dataset.status
+            if(setcompleted)
+            {
+                e.classList.add('step-completed');
+            }
+            if(productstatus === order.status){
+                    setcompleted=false
+                    time.innerText=moment(order.updatedAt).format('hh:mm A')
+                    e.appendChild(time)
+                if(e.nextElementSibling)
+                {
+                    e.nextElementSibling.classList.add('step-process')
+                }
+              
+            }
+        })
+    }       
+    updatestatus(order)
+</script>
+       
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>add products</title>
+  <link rel="stylesheet" href="css/adminproduct.css">
+  <link rel="shortcut icon" href="img/icons8-food-receiver-48.png" type="image/x-icon">
+</head>
+<body>
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+
+<form method="post" action="/adminproduct" enctype="multipart/form-data">
+ 
+  <h4>Add product</h4>
+<input name="name" type="text" id="name" placeholder="Enter ProductName">
+
+ <input name="image" type="file" id="image">
+ 
+ <input name="price" type="text" id="price" placeholder="Enter price">
+
+<input name="size" type="text" id="size" placeholder="Enter size">
+
+<input  class="button" type="submit" value="Submit"/>
+  <li><a href="/admin">Goto dashboard</a></li>
+</form>
+</body>
+</html>
