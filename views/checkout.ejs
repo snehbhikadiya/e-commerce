@@ -11,6 +11,7 @@
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
+
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
@@ -30,29 +31,23 @@
     <div class="container-fluid">
         <div class="row bg-secondary py-2 px-xl-5">
             <div class="col-lg-6 d-none d-lg-block">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-dark" href="">FAQs</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Help</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Support</a>
-                </div>
+               
             </div>
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-facebook-f"></i>
+                   <a class="text-dark px-2" href="https://github.com/snehbhikadiya">
+                        <i class="fab fa-github"></i>
                     </a>
-                    <a class="text-dark px-2" href="">
+                       <a class="text-dark px-2" href="https://x.com/SnehBhikadiya">
                         <i class="fab fa-twitter"></i>
                     </a>
                     <a class="text-dark px-2" href="">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
-                    <a class="text-dark px-2" href="">
+                   <a class="text-dark px-2" href="https://www.instagram.com/sneh_bhikadia/">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a class="text-dark pl-2" href="">
+                    <a class="text-dark pl-2" href="https://www.youtube.com/">
                         <i class="fab fa-youtube"></i>
                     </a>
                 </div>
@@ -246,18 +241,18 @@
                         <% for(let productt of Object.values(session.cart.items)) {%>
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">$<%= session.cart.totalprice%></h6>
+                            <h6 class="font-weight-medium">&#8377;<%= session.cart.totalprice%></h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 class="font-weight-medium">&#8377;10</h6>
                         </div>
                  
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">$<%= session.cart.totalprice +10 %></h5>
+                            <h5 class="font-weight-bold">&#8377;<%= session.cart.totalprice + 10 %></h5>
                         </div>
                     </div>
                     <% break; %>
@@ -269,29 +264,26 @@
                         <h4 class="font-weight-semi-bold m-0">Payment</h4>
                     </div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                                <label class="custom-control-label" for="paypal">Paypal</label>
+                        <form action="/payment" method="POST" id="payment-form">
+                            <div class="form-group">
+                                <div class="custom-control custom-radio" id="paymentMethod">
+                                    <input type="radio" class="custom-control-input" name="payment" id="onlinePayment" checked>
+                                    <label class="custom-control-label" for="onlinePayment">Cash on Delivery</label>
+                                </div>
+                                
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                                <label class="custom-control-label" for="directcheck">Cash On delivery</label>
+                            <div class="form-group" id="card-element">
+                                <!-- A Stripe Element will be inserted here. -->
+                        
                             </div>
-                        </div>
-                        <div class="">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
-                                <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer border-secondary bg-transparent">
-                        <button id="btn" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
+                            <!-- Used to display form errors. -->
+                            <div id="card-errors" role="alert"></div>
+                            <input type="hidden" name="amount" value="<%= session.cart.totalprice + 10 %>">
+                            <button type="submit" class="btn btn-primary" id="place-order-button">Place Order</button>
+                        </form>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -306,10 +298,10 @@
                 <a href="" class="text-decoration-none">
                     <h1 class="mb-4 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border border-white px-3 mr-1">E</span>Shopper</h1>
                 </a>
-                <p>Dolore erat dolor sit lorem vero amet. Sed sit lorem magna, ipsum no sit erat lorem et magna ipsum dolore amet erat.</p>
-                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
-                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
-                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
+                <p>Both our products and our customers are valuable and of high quality.</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>SDJ International College, vesu surat</p>
+                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>snehbhikadiya7@gmail.com</p>
+                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+91 8799593958</p>
             </div>
             <div class="col-lg-8 col-md-12">
                 <div class="row">
@@ -356,10 +348,7 @@
         <div class="row border-top border-light mx-xl-5 py-4">
             <div class="col-md-6 px-xl-0">
                 <p class="mb-md-0 text-center text-md-left text-dark">
-                    &copy; <a class="text-dark font-weight-semi-bold" href="#">Your Site Name</a>. All Rights Reserved. Designed
-                    by
-                    <a class="text-dark font-weight-semi-bold" href="https://htmlcodex.com">HTML Codex</a><br>
-                    Distributed By <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                    &copy; <a class="text-dark font-weight-semi-bold" href="#">sneh bhikadiya</a>    
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
@@ -417,6 +406,61 @@ myButton.addEventListener('click', () => {
   containerElement.appendChild(alertElement);
 });
 
+</script>
+
+<!-- Add the Stripe.js script separately, not inside the EJS script tag -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  var stripe = Stripe('pk_test_51OslMOSFoDIdJ6ZQ76eqBs0zmkxUzssbq2izg9uat1i5IwrekDU9X4HAkijsC5FZJ7PRPlyweoTCF5b4cTRxn9Qf00yhuQKM3s'); // Replace with your actual public key
+  var elements = stripe.elements();
+  var card = elements.create('card');
+  card.mount('#card-element');
+
+  card.addEventListener('change', function (event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+      displayError.textContent = event.error.message;
+    } else {
+      displayError.textContent = '';
+    }
+  });
+
+  var form = document.getElementById('payment-form');
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    stripe.createToken(card).then(function (result) {
+      if (result.error) {
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+      } else {
+        stripeTokenHandler(result.token);
+      }
+    });
+  });
+
+  function stripeTokenHandler(token) {
+    var form = document.getElementById('payment-form');
+    var hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.appendChild(hiddenInput);
+
+    form.submit();
+  }
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentMethod = document.getElementById('paymentMethod');
+        const radioInput = document.getElementById('onlinePayment');
+
+        paymentMethod.addEventListener('click', function () {
+            radioInput.checked = !radioInput.checked;
+        });
+    });
 </script>
 
 </html>

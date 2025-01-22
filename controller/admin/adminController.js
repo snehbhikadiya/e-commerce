@@ -1,20 +1,24 @@
 const Product=require('../../model/productModel');
-const Admin=require('../../model/adminModel');
-const bcrypt=require('bcryptjs');
 const User=require('../../model/user');
 const Order=require('../../model/userdetailsModel');
 const fs=require('fs');
+const passport = require('passport');
 
 
 exports.admindashboard=async(req,res)=>
 {
     const products=await Product.find();
-    res.render('admin/admin',{title:'admin-product',products});
+    console.log(" user: req.user", req.user);
+    console.log("session",req.session);
+    res.render('admin/admin',{title:'admin-product',products,  user: req.user,
+        success: req.flash('success'),
+        error: req.flash('error')});
 }
 
 exports.chatAdmin=async(req,res)=>
 {
-    res.render('admin/chatAdmin');
+    const user = await User.find();
+    res.render('admin/chatAdmin',{ user: user });
 }
 
 exports.adminproduct=async(req,res)=>
@@ -29,7 +33,8 @@ exports.createproduct=async(req,res)=>
         image:req.file.filename,
         price:req.body.price,
         size:req.body.size,
-        quantity:req.body.quantity
+        quantity:req.body.quantity,
+        description:req.body.description
     })
     register.save();
    return res.redirect('/admin');
@@ -70,6 +75,7 @@ exports.updateproduct=async(req,res)=>
     findproduct.price=req.body.price,
     findproduct.size=req.body.size
     findproduct.quantity=req.body.quantity
+    findproduct.description=req.body.description
 
     await findproduct.save()
     return res.redirect('/admin');
@@ -82,20 +88,6 @@ exports.delete=async(req,res)=>
     res.redirect('/admin');
 }
 
-exports.adminregister=async(req,res)=>
-{
-    res.render('admin/adminregister');
-}
-
-exports.adminregistercreat=async(req,res)=>
-{
-    const {AdminName,email}=req.body
-    const passwordbcrypt=await bcrypt.hash(req.body.password,10);
-    const admin={AdminName,email,password:passwordbcrypt}
-     await Admin.create(admin);
-     req.flash('success','admin login successfully');
-    res.redirect('/adminlogin');
-}
 
 exports.getouruser=async(req,res)=>
 {
@@ -103,29 +95,13 @@ exports.getouruser=async(req,res)=>
     res.render('admin/ourUser',{users:finduser});
 }
 
-exports.adminlogin=async(req,res)=>
-{
-    const success=req.flash('success');
-    const error=req.flash('error');
-   return res.render('admin/adminlogin',{success,error});
-}
-
-exports.adminlogincreat=async(req,res)=>
-{
-    const{email,password}=req.body
-    const findemail=await Admin.findOne({email});
-    if(!findemail)
-    {
-        return res.redirect('adminregister');
-    }
-    const passwrodbcrypt=await bcrypt.compare(password,findemail.password);
-    if(!passwrodbcrypt)
-    {
-        return res.redirect('adminlogin');
-    }
-    res.redirect('admin');
-}
-
+  exports.login = async (req, res, next) => {
+    passport.authenticate('local', {
+      successRedirect: req.user.type === 'admin' ? '/admin' : '/cart',
+      failureRedirect: '/login',
+      failureFlash: true
+    })(req, res, next);
+  };
 
 exports.admincustomerordertrak=async(req,res)=>
 {
@@ -171,5 +147,8 @@ exports.status=async(req,res)=>
     
     return res.redirect('/admin/ordersroute');
 }
+
+
+
 
 

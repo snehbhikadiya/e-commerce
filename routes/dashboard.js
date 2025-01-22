@@ -10,9 +10,14 @@ const use = (fn) => (req, res, next) => {
 
 routes.get("/cart", authorise, use(dashboardController.cart));
 routes.post("/updatecart", use(dashboardController.update));
+routes.post("/removeProduct", use(dashboardController.removeProduct));
 routes.post("/order", authorise, use(dashboardController.store));
 routes.get("/orders", authorise, use(dashboardController.customerorder));
-routes.get("/orders/:id", authorise, use(dashboardController.customerordertrak));
+routes.get(
+  "/orders/:id",
+  authorise,
+  use(dashboardController.customerordertrak)
+);
 
 routes.get("/logout", use(dashboardController.logout));
 

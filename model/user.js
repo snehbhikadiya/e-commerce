@@ -10,23 +10,29 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
+    unique: true,
+    required: true,
   },
   password: {
     type: String,
+    required: true,
   },
-  verify:{
-    type:Boolean,
-    default:false
+  verify: {
+    type: Boolean,
+    default: false
+  },
+  type: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: "user"
   },
   expiresIn: {
     type: Date,
-    default: () => {
-      return new Date().getTime() + 1000 * 60 * 5
-    }
+    default: () => new Date().getTime() + 1000 * 60 * 5
   }
-},{
-  timestamps:true
+}, {
+  timestamps: true
 });
 
-const user = mongoose.model("user", userSchema);
-module.exports = user;
+const User = mongoose.model("User", userSchema);
+module.exports = User;

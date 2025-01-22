@@ -1,30 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title%></title>
-  <link rel="stylesheet" href="../../css/adminproduct.css">
-  <link rel="shortcut icon" href="img/icons8-food-receiver-48.png" type="image/x-icon">
-</head>
-<body>
-  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title%></title>
+    <link rel="stylesheet" href="../../css/adminproduct.css" />
+    <link
+      rel="shortcut icon"
+      href="img/icons8-food-receiver-48.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-<form method="post" action="/update/<%=user.id%>" enctype="multipart/form-data">
- 
-  <h4>Update product <%= user.name%></h4>
-<input name="name" type="text" id="name" value="<%=user.name%>" placeholder="Enter ProductName">
+    <form
+      method="post"
+      action="/update/<%=user.id%>"
+      enctype="multipart/form-data"
+    >
+      <h4>Update product <%= user.name%></h4>
+      <input
+        name="name"
+        type="text"
+        id="name"
+        value="<%=user.name%>"
+        placeholder="Enter ProductName"
+      />
 
- <input name="image" type="file" id="image" value="<%=user.image%>">
- <input type="hidden" name="old_image" value="<%=user.image%>">
- 
- <input name="price" type="text" id="price"  value="<%=user.price%>"  placeholder="Enter price">
+      <input name="image" type="file" id="image" value="<%=user.image%>" />
+      <input type="hidden" name="old_image" value="<%=user.image%>" />
 
-<input name="size" type="text" id="size" value="<%=user.size%>"  placeholder="Enter size">
+      <input
+        name="price"
+        type="text"
+        id="price"
+        value="<%=user.price%>"
+        placeholder="Enter price"
+      />
 
-<input  class="button" type="submit" value="Submit"/>
-  <li><a href="/admin">Goto dashboard</a></li>
-</form>
-</body>
+      <input
+        name="size"
+        type="text"
+        id="size"
+        value="<%=user.size%>"
+        placeholder="Enter size"
+      />
+
+      <input
+        name="quantity"
+        type="text"
+        id="quantity"
+        value="<%=user.quantity%>"
+        placeholder="Enter quantity"
+      />
+
+      <input
+        name="description"
+        type="text"
+        id="description"
+        value="<%=user.description%>"
+        placeholder="Enter description"
+      />
+
+      <input class="button" type="submit" value="Submit" />
+      <li><a href="/admin">Goto dashboard</a></li>
+    </form>
+  </body>
 </html>

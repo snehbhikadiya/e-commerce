@@ -1,27 +1,12 @@
-const mongoose=require('mongoose');
-const Msg=require('../model/message');
-module.exports=(io,socket)=>{
-    console.log('socketid',socket.id);
-    Msg.find().then((result)=>
-    {
-        socket.emit('outputmessage',result)        
-    })
-    socket.emit('welcome','welcome to chat app');  
+module.exports =  (io, socket) => {
+    console.log("socket id", socket.id);
 
-    socket.broadcast.emit('newconnection', 'new user connected');
+    socket.emit("welcome", "welcome to chat app" )
 
-    socket.on('sendmessage',(data,resiver,sender)=>
-    {
-        console.log("recive message", data,resiver,sender);
+    socket.broadcast.emit("newConnection", "new user connected" )
 
-        const message=new Msg({message:data,resiver:resiver,sender:sender})
-        message.save().then(()=>{
-            
-        socket.broadcast.emit('receivemessage',data)
-        })
-    })
 
-    socket.on("disconnect", () => {
-        console.log("user disconnected");
+    socket.on("sendMessage", (data) => {
+        socket.broadcast.emit("receiveMessage",data)    
     })
 }

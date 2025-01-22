@@ -1,21 +1,14 @@
-const Admin=require('../model/adminModel');
-
-exports.adminauthorise=async(req,res,next)=>
-{
-    
-    if(req.isAuthenticated())
-    {
+exports.authorise = (req, res, next) => {
+    if (req.isAuthenticated() && req.user.type === 'admin') {
       return next();
     }
     return res.redirect('/adminlogin');
-}
-
-exports.adminnotauthorise=async(req,res)=>
-{
-    if(!req.isAuthenticated())
-    {
-        return next();
+  };
+  
+  exports.notautherise = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+      return next();
     }
-
     return res.redirect('/admin');
-}
+  };
+  

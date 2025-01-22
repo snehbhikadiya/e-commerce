@@ -1,160 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>chat</title>
-	<link rel="stylesheet" href="css/chat.css">
-	<link rel="shortcut icon" href="img/icons8-chat-room-48.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/chat.css"> <!-- Assuming you have a custom CSS file for chat styles -->
+    <link rel="stylesheet" href="path/to/your/new/chat-design.css"> <!-- Link to your new chat design stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <title>Chat App</title>
 </head>
 <body>
-	<div id="container">
-		<aside>
-			<header>
-				<input type="text" placeholder="search">
-			</header>
-			<ul id="chat-content">
-			
-				<li>
-					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="">
-					<div>
-						<h2>Prénom Nom</h2>
-						<h3>
-							<span class="status green"></span>
-							online
-						</h3>
-					</div>
-				</li>
-				<li>
-					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_09.jpg" alt="">
-					<div>
-						<h2>Prénom Nom</h2>
-						<h3>
-							<span class="status green"></span>
-							online
-						</h3>
-					</div>
-				</li>
-				<li>
-					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_10.jpg" alt="">
-					<div>
-						<h2>Prénom Nom</h2>
-						<h3>
-							<span class="status orange"></span>
-							offline
-						</h3>
-					</div>
-				</li>
-				<li>
-					
-					<div>
-						<h3>
-							<span></span>
-							<a href="/dashboard" style="color: aliceblue; font-size: large; padding-left: 88.5px; text-decoration: none;">Home</a>
-						</h3>
-					</div>
-				</li>
-			</ul>
-		</aside>
-		<main>
-			<header>
-				<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="">
-				<div>
-					<h2>Chat with Vincent Porter</h2>
-					<h3>already 1902 messages</h3>
-				</div>
-				<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
-			</header>
-		<form id="chatform">
-			<ul id="chat">
-	
-			
-				
-			
-			
-				
-			</ul>
-	
-			<footer>
-				<textarea placeholder="Type your message" id="message"></textarea>
-				<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png" alt="">
-				<span src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_file.png" alt=""></span>
-				<button type="submit">Send</button> 
-			</footer>
-		</form>
-		</main>
-	</div>
+    <% user.forEach(function(user){ %>
+        <div class="container mt-5" id="chat-content">
+            <div class="menu">
+                <div class="back"><a href="/dashboard" style="color: aliceblue; text-decoration: none;"><i class="fa fa-chevron-left"></i></a><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
+                <div class="name">Admin</div>
+            </div>
+        </div>
+    <% }); %>
+    
+        <div class="last"  id="currentTime"></div>
+    </div>
+	<form action="" id="chatForm">
+    <input class="textarea form-control mt-3" type="text" id="message" placeholder="Type here!"/>
+</div>
+<div class="emojis"></div>
+<button class="btn btn-primary"type="submit">Send</button>
+</div>  
+</form>
+<link rel="stylesheet" href="path/to/your/new/chat-design.css">
 </body>
-<script src="/socket.io/socket.io.js"></script>
-	<script>
-		function scrollbottom()
-		{
-			chatContent.scrollTop=chatContent.scrollHeight
-		}
-
-
-		const socket=io()
-		
-		const form=document.getElementById('chatform')
-		const message=document.getElementById('message');
-
-		form.addEventListener('submit',(e)=>
-	{
-		e.preventDefault()
-		const msg=message.value;
-		appendmessage(msg, "me")
-		socket.emit('sendmessage',msg)
-		message.value=''
-		scrollbottom()
-		
-	})
-
-
-
-	function appendmessage(message, type){
-		const divElement=document.createElement('div');
-		divElement.innerHTML=`<li class="${type}">
-			<div class="entete">
-				<h3>10:12AM, Today</h3>
-				<h2>Vincent</h2>
-				<span class="status blue"></span>
-			</div>
-			<div class="triangle"></div>
-			<div class="message">
-				${message}
-			</div>
-		</li>`
-		
-		chatContent.appendChild(divElement)
-	}
-
-		
-
-		const chatContent=document.getElementById('chat');
-		socket.on('receivemessage',(data) => {
-			console.log("receive ", data);
-			const divElement=document.createElement('div');
-			divElement.innerHTML=`<li class="you">
-				<div class="entete">
-					<span class="status green"></span>
-					<h2>Vincent</h2>
-					<h3>10:12AM, Today</h3>
-				</div>
-				<div class="triangle"></div>
-				<div class="message">
-					${data}
-				</div>
-				</li>`
-
-				chatContent.appendChild(divElement);
-	})
-
-
-	
-	</script>
-
 </html>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    //main code for chat app
+    const socket = io()
+
+    socket.on("connect", () => {
+        socket.emit("join", "viral@gmail.com")
+        console.log("client socket connected")
+    });
+
+    socket.on('welcome', (data) => {
+        console.log(data);
+    })
+
+    socket.on('newConnection', (data) => {
+        console.log(data);
+    })
+
+    const form = document.getElementById('chatForm')
+    const message = document.getElementById('message')
+    const chatContent = document.getElementById('chat-content')
+
+
+    // when us click on the submit button then this event fire
+    form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        debugger
+        const msg = message.value;
+        appendSendMessage(msg)
+        socket.emit("sendMessage", msg)
+        message.value = ''
+
+    })
+
+    socket.on('receiveMessage', (data) => {
+
+        appendReceiveMessage(data)
+       
+    })
 
 
 
+    //only set the message in html form send side
+    function appendSendMessage(message){
+        const divElement = document.createElement('div')
+		const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        divElement.innerHTML = ` <ol class="chat"><li class="self">
+			<div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
+		  <div class="msg">
+			<p>${message}</p>
+			<time>${currentTime}</time>
+		  </div>
+		</li>
+		</ol>`
+
+        chatContent.appendChild(divElement)
+
+    }
+
+    //only set the message in html form receive side
+    const  appendReceiveMessage = (message) => {
+        const divElement = document.createElement('div')
+		const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        divElement.innerHTML = `<ol class="chat"><li class="other">
+			<div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
+		  <div class="msg">
+			<p>${message}</p>
+			<time>${currentTime}</time>
+		  </div>
+		</li>`
+
+        chatContent.appendChild(divElement)
+    }
+</script>
+<script>
+    function updateCurrentTime() {
+        const currentTimeElement = document.getElementById('currentTime');
+        const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        currentTimeElement.textContent = currentTime;
+    }
+
+    // Update the current time every second
+    setInterval(updateCurrentTime, 1000);
+
+    // Initial update
+    updateCurrentTime();
+</script>
